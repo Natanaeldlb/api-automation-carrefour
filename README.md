@@ -151,6 +151,29 @@ Isso gera a pasta:
 allure-results/
 ```
 
+---
+
+## 📊 Evidências da Execução
+
+Abaixo estão evidências da execução dos testes via Newman com geração de relatório em Allure.
+
+### 🟢 Visão Geral da Execução
+
+### Evidência - 01
+
+![Allure Overview](docs/evidencia_01.png)
+
+### Evidência - 02
+
+![Allure Test Structure](docs/evidencia_02.png)
+
+### Evidência - 03
+
+![Allure Test Structure](docs/evidencia_03.png)
+
+---
+
+
 ### 3) Visualizar relatório (servidor local)
 
 > O comando `allure` depende do Java instalado.
