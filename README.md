@@ -302,9 +302,3 @@ newman run collection.json -e environment.json -r allure
 
 # abrir relatório
 allure serve allure-results
-<<<<<<< HEAD
-```
----
-=======
-```
->>>>>>> e11fb49 (Create README.md)
