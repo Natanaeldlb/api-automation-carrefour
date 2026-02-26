@@ -1,25 +1,33 @@
-```md
-# API Automation Challenge – Banco Carrefour (QA Sênior)
+# 🚀 API Automation Challenge  
+### Banco Carrefour – QA Automation
 
-Este repositório contém a automação de testes de API construída com **Postman** e executada via **Newman**, com geração de relatórios via **Allure**.  
-O objetivo é validar cenários **positivos**, **negativos**, **segurança** (conforme comportamento observado da API) e **rate limit**.
+Este projeto demonstra a implementação de uma estratégia completa de automação de testes de API, aplicando boas práticas de organização, controle de massa de dados, execução em lote e geração de relatórios.
+
+A solução foi construída com foco em:
+
+- ✔ Estrutura clara e escalável de testes
+- ✔ Separação de cenários positivos e negativos
+- ✔ Validação de regras de negócio
+- ✔ Controle dinâmico de dados para execução repetida
+- ✔ Execução via linha de comando (Newman)
+- ✔ Geração de relatórios com Allure
+- ✔ Preparação para integração contínua (CI/CD)
 
 ---
 
-## 📌 Estrutura do Projeto
+## 🎯 Objetivo do Projeto
 
-```
+Validar o comportamento da API por meio de testes automatizados organizados por contexto funcional, cobrindo:
 
-api-automation-carrefour/
-├─ collection.json                 # Collection exportada do Postman
-├─ environment.json                # Environment exportado do Postman (com base_url)
-├─ package.json                    # Dependências (opcional, útil para padronizar)
-├─ package-lock.json
-├─ README.md
-├─ .gitignore
-└─ allure-results/                 # Gerado após rodar com -r allure (não versionar)
+- Autenticação
+- Operações de usuários
+- Validações de erro
+- Análise de segurança
+- Testes de execução em lote (Rate Limit)
 
-````
+O projeto foi estruturado para permitir fácil manutenção, reexecução e integração em pipeline automatizado.
+
+---
 
 > **Importante:** `node_modules/` e `allure-results/` não devem ser enviados ao repositório.
 
