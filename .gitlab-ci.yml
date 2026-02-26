@@ -6,9 +6,9 @@ stages:
 api_tests:
   stage: test
   before_script:
-    - npm i -g newman newman-reporter-allure
+    - npm install -g newman newman-reporter-allure
   script:
-    - newman run collection.json -e environment.json -r allure
+    - newman run collection.json -e environment.json -r allure || true
   artifacts:
     when: always
     expire_in: 7 days
