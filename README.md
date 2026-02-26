@@ -161,15 +161,15 @@ Abaixo estão evidências da execução dos testes via Newman com geração de r
 
 ### Evidência - 01
 
-![Allure Overview](docs/evidencia_01.png)
+![Allure Overview](docs/evidencia_01.jpeg)
 
 ### Evidência - 02
 
-![Allure Test Structure](docs/evidencia_02.png)
+![Allure Test Structure](docs/evidencia_02.jpeg)
 
 ### Evidência - 03
 
-![Allure Test Structure](docs/evidencia_03.png)
+![Allure Test Structure](docs/evidencia_03.jpeg)
 
 ---
 
