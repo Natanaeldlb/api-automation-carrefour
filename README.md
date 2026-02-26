@@ -193,12 +193,6 @@ Acesse o relatório gerado automaticamente pela pipeline:
 
 👉 https://api-automation-carrefour-a8194a.gitlab.io
 
-## 📊 Relatório Allure (GitLab Pages)
-
-Acesse o relatório gerado automaticamente pela pipeline:
-
-👉 https://api-automation-carrefour-a8194a.gitlab.io
-
 ## 🧪 Organização dos Testes
 
 Os testes estão organizados na collection em pastas:
