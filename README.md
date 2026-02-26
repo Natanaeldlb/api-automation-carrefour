@@ -189,6 +189,13 @@ allure serve allure-results
 
 ---
 
+## 📊 Relatório Allure (GitLab Pages)
+
+Acesse o relatório gerado automaticamente pela pipeline:
+
+👉 https://api-automation-carrefour-a8194a.gitlab.io
+
+
 ## 🧪 Organização dos Testes
 
 Os testes estão organizados na collection em pastas:
@@ -299,17 +306,4 @@ newman run collection.json -e environment.json -r allure
 # abrir relatório
 allure serve allure-results
 ```
-
 ---
-
-## 📬 Contato
-
-Caso precise de ajustes ou melhorias (CI/CD, Github Actions, GitLab CI), este projeto está preparado para integração.
-
-```
-
-Se você quiser, eu também posso te entregar:
-- um `.gitlab-ci.yml` pronto (com artifacts do Allure)
-- um `GitHub Actions` workflow (`.github/workflows/tests.yml`) para rodar automaticamente quando fizer push
-- checklist final do que mandar pro recrutador (mensagem + link + prints do Allure)
-```
