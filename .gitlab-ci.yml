@@ -2,15 +2,40 @@ image: node:18
 
 stages:
   - test
+  - pages
+
+variables:
+  ALLURE_VERSION: "2.27.0"
 
 api_tests:
   stage: test
   before_script:
     - npm install -g newman newman-reporter-allure
+    # instala o Allure CLI (binário) dentro do job
+    - apt-get update && apt-get install -y wget unzip
+    - wget -q https://github.com/allure-framework/allure2/releases/download/${ALLURE_VERSION}/allure-${ALLURE_VERSION}.zip
+    - unzip -q allure-${ALLURE_VERSION}.zip
+    - mv allure-${ALLURE_VERSION} /opt/allure
+    - ln -s /opt/allure/bin/allure /usr/local/bin/allure
   script:
+    # roda testes e sempre continua pra gerar relatório
     - newman run collection.json -e environment.json -r allure || true
+    # gera o HTML do Allure
+    - allure generate allure-results --clean -o allure-report
   artifacts:
     when: always
     expire_in: 30 days
     paths:
       - allure-results/
+      - allure-report/
+
+pages:
+  stage: pages
+  script:
+    - mkdir -p public
+    - cp -r allure-report/* public/
+  artifacts:
+    paths:
+      - public
+  only:
+    - main
