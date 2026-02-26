@@ -1,0 +1,16 @@
+image: node:18
+
+stages:
+  - test
+
+api_tests:
+  stage: test
+  before_script:
+    - npm i -g newman newman-reporter-allure
+  script:
+    - newman run collection.json -e environment.json -r allure
+  artifacts:
+    when: always
+    expire_in: 7 days
+    paths:
+      - allure-results/
