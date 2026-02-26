@@ -161,8 +161,6 @@ Abaixo estão evidências da execução dos testes via Newman com geração de r
 
 ### Evidência - 01
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 ![Allure Overview](docs/evidencia_01.jpeg)
 
 ### Evidência - 02
@@ -172,27 +170,8 @@ Abaixo estão evidências da execução dos testes via Newman com geração de r
 ### Evidência - 03
 
 ![Allure Test Structure](docs/evidencia_03.jpeg)
-=======
-![Allure Overview](docs/evidencia_01.png)
-=======
-![Allure Overview](docs/evidencia_01.jpeg)
->>>>>>> a4f2d29 (Update README.md)
-
-### Evidência - 02
-
-![Allure Test Structure](docs/evidencia_02.jpeg)
-
-### Evidência - 03
-
-<<<<<<< HEAD
-![Allure Test Structure](docs/evidencia_03.png)
->>>>>>> 4746cd1 (Update README.md)
-=======
-![Allure Test Structure](docs/evidencia_03.jpeg)
->>>>>>> a4f2d29 (Update README.md)
 
 ---
-
 
 ### 3) Visualizar relatório (servidor local)
 
@@ -208,6 +187,11 @@ allure serve allure-results
 > (Caso você já esteja usando e funcionou no seu setup, basta repetir o comando acima.)
 
 ---
+## 📊 Relatório Allure (GitLab Pages)
+
+Acesse o relatório gerado automaticamente pela pipeline:
+
+👉 https://api-automation-carrefour-a8194a.gitlab.io
 
 ## 📊 Relatório Allure (GitLab Pages)
 
