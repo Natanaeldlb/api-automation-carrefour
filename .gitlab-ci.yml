@@ -1,4 +1,4 @@
-image: node:18
+image: node:18-bullseye
 
 stages:
   - test
@@ -10,18 +10,21 @@ variables:
 api_tests:
   stage: test
   before_script:
-    - npm install -g newman newman-reporter-allure
-    # instala o Allure CLI (binário) dentro do job
-    - apt-get update && apt-get install -y wget unzip
-    - wget -q https://github.com/allure-framework/allure2/releases/download/${ALLURE_VERSION}/allure-${ALLURE_VERSION}.zip
-    - unzip -q allure-${ALLURE_VERSION}.zip
-    - mv allure-${ALLURE_VERSION} /opt/allure
-    - ln -s /opt/allure/bin/allure /usr/local/bin/allure
+    - npm i -g newman newman-reporter-allure
+    - apt-get update
+    - apt-get install -y wget unzip
+    - wget -q https://github.com/allure-framework/allure2/releases/download/${ALLURE_VERSION}/allure-${ALLURE_VERSION}.zip -O /tmp/allure.zip
+    - unzip -q /tmp/allure.zip -d /opt
+    - ln -sf /opt/allure-${ALLURE_VERSION}/bin/allure /usr/local/bin/allure
+    - allure --version
   script:
-    # roda testes e sempre continua pra gerar relatório
+    # roda os testes (não quebra o job se algum teste falhar)
     - newman run collection.json -e environment.json -r allure || true
-    # gera o HTML do Allure
-    - allure generate allure-results --clean -o allure-report
+    # gera o HTML do Allure (e mostra logs pra debug)
+    - ls -la
+    - ls -la allure-results || true
+    - allure generate allure-results --clean -o allure-report || true
+    - ls -la allure-report || true
   artifacts:
     when: always
     expire_in: 30 days
@@ -33,7 +36,8 @@ pages:
   stage: pages
   script:
     - mkdir -p public
-    - cp -r allure-report/* public/
+    - cp -r allure-report/* public/ || true
+    - test -f public/index.html || (echo "Allure report not generated" && exit 1)
   artifacts:
     paths:
       - public
