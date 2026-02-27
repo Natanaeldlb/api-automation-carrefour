@@ -16,6 +16,7 @@
               "listen": "test",
               "script": {
                 "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));\r",
                   "const response = pm.response.json();\r",
                   "pm.environment.set(\"token\", response.authorization);"
                 ],
@@ -54,6 +55,75 @@
     {
       "name": "Users - Positive",
       "item": [
+        {
+          "name": "Criar Usuário (201)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 201 - Usuario criado\", () => pm.response.to.have.status(201));\r",
+                  "\r",
+                  "const json = pm.response.json();\r",
+                  "\r",
+                  "// o ServeRest retorna o id como \"_id\"\r",
+                  "pm.environment.set(\"user_id\", json._id);\r",
+                  "\r",
+                  "// opcional: salvar email criado (útil pra debug)\r",
+                  "pm.environment.set(\"created_email\", pm.variables.get(\"email_dinamico\") || \"\");"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "const random = Math.floor(Math.random() * 1000000);\r",
+                  "pm.environment.set(\"email_dinamico\", `qa_user_${random}@email.com`);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"nome\": \"Usuario QA\",\r\n  \"email\": \"{{email_dinamico}}\",\r\n  \"password\": \"123456\",\r\n  \"administrador\": \"true\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/usuarios",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "usuarios"
+              ]
+            }
+          },
+          "response": []
+        },
         {
           "name": "Listar Usuários",
           "event": [
@@ -103,15 +173,15 @@
           "response": []
         },
         {
-          "name": "Criar Usuário (201)",
+          "name": "Buscar Usuário por ID (200)",
           "event": [
             {
               "listen": "test",
               "script": {
                 "exec": [
-                  "pm.test(\"Status 201 - Usuario criado\", function () {\r",
-                  "    pm.response.to.have.status(201);\r",
-                  "});"
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));\r",
+                  "const json = pm.response.json();\r",
+                  "pm.test(\"Retorna o mesmo _id\", () => pm.expect(json._id).to.eql(pm.environment.get(\"user_id\")));"
                 ],
                 "type": "text/javascript",
                 "packages": {},
@@ -121,9 +191,46 @@
             {
               "listen": "prerequest",
               "script": {
+                "packages": {},
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/usuarios/{{user_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "usuarios",
+                "{{user_id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Editar Usuário (200)",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
                 "exec": [
-                  "const random = Math.floor(Math.random() * 1000000);\r",
-                  "pm.environment.set(\"email_dinamico\", `qa_user_${random}@email.com`);"
+                  "pm.environment.set(\"timestamp\", Date.now());"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));"
                 ],
                 "type": "text/javascript",
                 "packages": {},
@@ -132,21 +239,11 @@
             }
           ],
           "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{token}}",
-                  "type": "string"
-                }
-              ]
-            },
-            "method": "POST",
+            "method": "PUT",
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"nome\": \"Usuario QA\",\r\n  \"email\": \"{{email_dinamico}}\",\r\n  \"password\": \"123456\",\r\n  \"administrador\": \"true\"\r\n}",
+              "raw": "{\r\n  \"nome\": \"Usuario QA Editado\",\r\n  \"email\": \"qa_user_edit_{{timestamp}}@email.com\",\r\n  \"password\": \"123456\",\r\n  \"administrador\": \"true\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -154,12 +251,77 @@
               }
             },
             "url": {
-              "raw": "{{base_url}}/usuarios",
+              "raw": "{{base_url}}/usuarios/{{user_id}}",
               "host": [
                 "{{base_url}}"
               ],
               "path": [
-                "usuarios"
+                "usuarios",
+                "{{user_id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Excluir Usuário (200)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/usuarios/{{user_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "usuarios",
+                "{{user_id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Buscar Usuário Após Delete (404)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Nao encontrado (400 ou 404)\", () => {\r",
+                  "  pm.expect([400, 404]).to.include(pm.response.code);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/usuarios/{{user_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "usuarios",
+                "{{user_id}}"
               ]
             }
           },

@@ -193,6 +193,19 @@ Acesse o relatório gerado automaticamente pela pipeline:
 
 👉 https://api-automation-carrefour-a8194a.gitlab.io
 
+---
+
+## ⚙️ CI/CD (GitLab Pipeline)
+
+A cada push na branch `main`, a pipeline:
+
+1. Instala dependências
+2. Executa os testes via Newman
+3. Gera resultados Allure
+4. Publica relatório automaticamente via GitLab Pages
+
+A pipeline roda automaticamente a cada atualização enviada para o repositório.
+
 ## 🧪 Organização dos Testes
 
 Os testes estão organizados na collection em pastas:
@@ -202,9 +215,12 @@ Os testes estão organizados na collection em pastas:
   * Login e captura de token no environment
 
 * **Users - Positive**
-
   * Listagem de usuários (200)
   * Criação de usuário (201) com massa dinâmica
+  * Buscar usuário por ID (200)
+  * Editar usuário (200)
+  * Excluir usuário (200)
+  * Buscar usuário após exclusão (400/404)
 
 * **Users - Negative**
 
@@ -218,6 +234,26 @@ Os testes estão organizados na collection em pastas:
 * **Users - Rate Limit**
 
   * Execução em lote para avaliar presença de rate limit (ex.: 429)
+
+---
+
+## 📌 Cobertura da API (Users)
+
+Os seguintes endpoints foram validados:
+
+| Método | Endpoint | Cenários Cobertos |
+|--------|----------|------------------|
+| POST | /login | 200 - geração de token |
+| GET | /usuarios | 200 - listagem |
+| POST | /usuarios | 201 - criação válida |
+| POST | /usuarios | 400 - email duplicado |
+| POST | /usuarios | 400 - campo obrigatório ausente |
+| GET | /usuarios/{_id} | 200 - busca por ID |
+| GET | /usuarios/{_id} | 400/404 - após exclusão |
+| PUT | /usuarios/{_id} | 200 - atualização |
+| DELETE | /usuarios/{_id} | 200 - exclusão |
+
+Cobertura funcional: **100% dos endpoints de Users disponíveis na API ServeRest.**
 
 ---
 
